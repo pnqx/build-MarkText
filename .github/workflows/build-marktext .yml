@@ -13,8 +13,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-permissions:
-  contents: write
+
   
 env:
   GCI:  git-commit-info.txt
@@ -118,6 +117,8 @@ jobs:
            echo -e "$dateTime \n $log" > ${{ github.workspace }}-CHANGELOG.txt
            
       - name: Release
+        permissions:
+          contents: write
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{env.GIT_COMMIT_DATE_TIME}}
