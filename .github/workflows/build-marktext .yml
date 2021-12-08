@@ -105,7 +105,7 @@ jobs:
           path: ./
       - run: |
            ls -lshR
-           log=$(cat ${{env.GCI}})
+           log=$(cat */${{env.GCI}})
            timestamp=$(echo $log | grep -o '^[0-9]\+')
            dateTime=$(date --date="@$timestamp" +"%Y-%m-%d_%H%M%S")
            echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
