@@ -35,7 +35,7 @@ jobs:
       
       - name: Get latest commit
         run: |
-          git log --pretty=format:"%cd|||%cn|||%s" -1 --date=unix
+          git log --pretty=format:"%cd|||%cn|||%s" -1 --date=format:%c
 
       - name: Install Node.js
         uses: actions/setup-node@v2
