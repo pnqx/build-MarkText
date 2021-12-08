@@ -13,6 +13,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: write
+  
 env:
   GCI:  git-commit-info.txt
 
@@ -110,9 +113,11 @@ jobs:
            dateTime=$(date --date="@$timestamp" +"%Y-%m-%d_%H%M%S")
            echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
            echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
+           echo -e "$dateTime \n $log" > ${{ github.workspace }}-CHANGELOG.txt
            
-      - name: 上传说明文件
-        uses: actions/upload-artifact@v2
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: 文件版本：${{ env.GIT_COMMIT_DATE_TIME }} ${{ env.GIT_COMMIT_INFO }}
-          path: ${{env.GCI}}
+          body_path: ${{ github.workspace }}-CHANGELOG.txt
+          files: |
+            **/*.exe
