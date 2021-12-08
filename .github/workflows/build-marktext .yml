@@ -118,6 +118,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: tag_name
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: |
             **/*.exe
