@@ -120,12 +120,12 @@ jobs:
            dateTimeFileName=$(date --date="@$china" +"%Y-%m-%d_%H.%M.%S")
            echo "GIT_COMMIT_DATE_TIME_FILE_NAME=$dateTimeFileName" >> $GITHUB_ENV
            
-           echo "TIME_STAMP=$(date +%s)" >> $GITHUB_ENV
+           echo "TIME_STAMP=$(date +%Y-%m-%d_%H.%M.%S)" >> $GITHUB_ENV
            echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
            echo -e "$dateTime \n $log" > CHANGELOG.txt
            sudo apt update
            sudo apt install -y upx
-           #find -name *.exe -exec upx -9 "{}" \;
+           find -name *.exe -exec upx -9 -k "{}" \;
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
