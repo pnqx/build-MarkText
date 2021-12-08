@@ -44,8 +44,8 @@ jobs:
       - name: 上传git提交信息
         uses: actions/upload-artifact@v2
         with:
-          name: ${{GCI}}
-          path: ${{GCI}}
+          name: ${{env.GCI}}
+          path: ${{env.GCI}}
 
       - name: Install Node.js
         uses: actions/setup-node@v2
@@ -102,7 +102,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
       - run: |
-           log=$(cat ${{GCI}})
+           log=$(cat ${{env.GCI}})
            timestamp=$(echo $log | grep -o '^[0-9]\+')
            dateTime=$(date --date="@$timestamp" +"%Y-%m-%d_%H%M%S")
            echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
@@ -111,4 +111,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: 文件版本：${{ env.GIT_COMMIT_DATE_TIME }} ${{ env.GIT_COMMIT_INFO }}
-          path: ${{GCI}}
+          path: ${{env.GCI}}
