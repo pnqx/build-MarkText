@@ -118,7 +118,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{GIT_COMMIT_DATE_TIME}}
+          tag_name: ${{env.GIT_COMMIT_DATE_TIME}}
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: |
             **/*.exe
