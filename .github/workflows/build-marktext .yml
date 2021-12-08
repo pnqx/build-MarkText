@@ -20,7 +20,7 @@ jobs:
   build-windows:
     runs-on: windows-latest
     continue-on-error: false
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     env:
       # MARKTEXT_IS_STABLE: 1
@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+        with:
+         repository: 'marktext/marktext' 
 
       - name: Install Node.js
         uses: actions/setup-node@v2
@@ -70,13 +72,6 @@ jobs:
       - name: Install dependencies
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: yarn install --check-files --frozen-lockfile
-
-      - name: Lint
-        run: |
-          yarn run lint
-          yarn run validate-licenses
-      - name: Run unit and E2E tests
-        run: yarn run test
 
       - name: Build
         run: yarn build:bin
