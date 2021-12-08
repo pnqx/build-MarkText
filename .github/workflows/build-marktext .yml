@@ -89,10 +89,10 @@ jobs:
       - name: Install dependencies
         if: ${{ steps.cacheNodeModules.outputs.cache-hit != 'true' }}
         run: yarn install --check-files --frozen-lockfile
-      - name: Lint
-        run: |
-          yarn run lint
-          yarn run validate-licenses
+#      - name: Lint
+#        run: |
+#          yarn run lint
+#          yarn run validate-licenses
       - name: Build
         run: yarn build
       - name: Archive production artifacts
