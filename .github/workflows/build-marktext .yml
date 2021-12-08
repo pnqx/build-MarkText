@@ -124,9 +124,9 @@ jobs:
            echo "TIME_STAMP=$(date --date="@$now" +%Y-%m-%d_%H.%M.%S)" >> $GITHUB_ENV
            echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
            echo -e "$dateTime \n $log" > CHANGELOG.txt
-           sudo apt update
-           sudo apt install -y upx
-           find -name *.exe -exec upx -9 "{}" \;
+           #sudo apt update
+           #sudo apt install -y upx
+           #find -name *.exe -exec upx -9 "{}" \;
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
