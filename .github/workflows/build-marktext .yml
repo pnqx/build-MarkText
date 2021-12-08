@@ -110,7 +110,9 @@ jobs:
            ls -lshR
            log=$(cat */${{env.GCI}})
            timestamp=$(echo $log | grep -o '^[0-9]\+')
-           dateTime=$(date --date="@$timestamp" +"%Y-%m-%d_%H%M%S")
+           #转换到中国时间
+           china=$(($timestamp + 28800))
+           dateTime=$(date --date="@$china" +"%Y-%m-%d %H:%M:%S")
            echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
            echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
            echo -e "$dateTime \n $log" > ${{ github.workspace }}-CHANGELOG.txt
