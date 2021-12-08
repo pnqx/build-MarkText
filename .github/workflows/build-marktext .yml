@@ -104,8 +104,9 @@ jobs:
            timestamp=$(echo $log | grep -o '^[0-9]\+')
            dateTime=$(date --date="@$timestamp" +"%Y-%m-%d_%H%M%S")
            echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
+           echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
       - name: 上传说明文件
         uses: actions/upload-artifact@v2
         with:
-          name: 文件版本：${{ env.GIT_COMMIT_DATE_TIME }}
+          name: 文件版本：${{ env.GIT_COMMIT_DATE_TIME }} ${{ env.GIT_COMMIT_INFO }}
           path: git-commit-info.txt
