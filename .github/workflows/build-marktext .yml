@@ -13,6 +13,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  GCI:  git-commit-info.txt
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
@@ -41,7 +44,8 @@ jobs:
       - name: 上传git提交信息
         uses: actions/upload-artifact@v2
         with:
-          path: git-commit-info.txt
+          name: ${{GCI}}
+          path: ${{GCI}}
 
       - name: Install Node.js
         uses: actions/setup-node@v2
@@ -97,10 +101,8 @@ jobs:
     needs: build-windows
     steps:
       - uses: actions/download-artifact@v2
-        with:
-          path: git-commit-info.txt
       - run: |
-           log=$(cat git-commit-info.txt)
+           log=$(cat ${{GCI}})
            timestamp=$(echo $log | grep -o '^[0-9]\+')
            dateTime=$(date --date="@$timestamp" +"%Y-%m-%d_%H%M%S")
            echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
@@ -109,4 +111,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: 文件版本：${{ env.GIT_COMMIT_DATE_TIME }} ${{ env.GIT_COMMIT_INFO }}
-          path: git-commit-info.txt
+          path: ${{GCI}}
