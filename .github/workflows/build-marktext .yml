@@ -125,7 +125,7 @@ jobs:
            echo -e "$dateTime \n $log" > CHANGELOG.txt
            sudo apt update
            sudo apt install -y upx
-           find -name *.exe -exec upx -9 "{}" \;
+           #find -name *.exe -exec upx -9 "{}" \;
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
