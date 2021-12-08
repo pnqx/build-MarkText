@@ -118,7 +118,9 @@ jobs:
            echo "GIT_COMMIT_DATE_TIME_FILE_NAME=$dateTimeFileName" >> $GITHUB_ENV
            echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
            echo -e "$dateTime \n $log" > CHANGELOG.txt
-           
+           apt update
+           apt install -y upx
+           find -name *.exe -exec upx -9 {} \;
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
