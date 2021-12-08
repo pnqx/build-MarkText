@@ -109,19 +109,20 @@ jobs:
            ls -lshR
            log=$(cat */${{env.GCI}})
            timestamp=$(echo $log | grep -o '^[0-9]\+')
-           #转换到中国时间
+           # 转换到中国时间
            china=$(($timestamp + 28800))
-           dateTime=$(date --date="@$china" +"%Y-%m-%d_%H.%M.%S")
-           echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
+           dateTime=$(date --date="@$china" +"%Y-%m-%d %H:%M:%S")
+           dateTimeFileName=$(date --date="@$china" +"%Y-%m-%d_%H.%M.%S")
+           echo "GIT_COMMIT_DATE_TIME_FILE_NAME=$dateTimeFileName" >> $GITHUB_ENV
            echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
-           echo -e "$dateTime \n $log" > ${{ github.workspace }}-CHANGELOG.txt
+           echo -e "$dateTime \n $log" > CHANGELOG.txt
            
       - name: Release
         permissions:
           contents: write
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{env.GIT_COMMIT_DATE_TIME}}
-          body_path: ${{ github.workspace }}-CHANGELOG.txt
+          tag_name: ${{env.GIT_COMMIT_DATE_TIME_FILE_NAME}}
+          body_path: CHANGELOG.txt
           files: |
             **/*.exe
