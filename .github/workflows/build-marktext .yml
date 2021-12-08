@@ -119,6 +119,8 @@ jobs:
            dateTime=$(date --date="@$china" +"%Y-%m-%d %H:%M:%S")
            dateTimeFileName=$(date --date="@$china" +"%Y-%m-%d_%H.%M.%S")
            echo "GIT_COMMIT_DATE_TIME_FILE_NAME=$dateTimeFileName" >> $GITHUB_ENV
+           
+           echo "TIME_STAMP=$(date +%s)" >> $GITHUB_ENV
            echo "GIT_COMMIT_INFO=$log" >> $GITHUB_ENV
            echo -e "$dateTime \n $log" > CHANGELOG.txt
            sudo apt update
@@ -127,7 +129,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{env.GIT_COMMIT_DATE_TIME_FILE_NAME}}_${{GITHUB_RUN_NUMBER}}
+          tag_name: ${{env.GIT_COMMIT_DATE_TIME_FILE_NAME}}_${{env.TIME_STAMP}}
           body_path: CHANGELOG.txt
           files: |
             **/*.exe
