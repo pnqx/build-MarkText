@@ -34,8 +34,14 @@ jobs:
          repository: 'marktext/marktext' 
       
       - name: Get latest commit
+        shell: pwsh
         run: |
-          git log --pretty=format:"%cd|||%cn|||%s" -1 --date=format-local:"%Y-%m-%d %H:%M:%S %z"
+          git log --pretty=format:"%cd|||%cn|||%s" -1 --date=unix > git-commit-info.txt
+
+      - name: 上传git提交信息
+        uses: actions/upload-artifact@v2
+        with:
+          path: git-commit-info.txt
 
       - name: Install Node.js
         uses: actions/setup-node@v2
@@ -86,3 +92,20 @@ jobs:
           name: exe-file
           path: |
             build/**/*.exe
+  parse-artifacts:
+    runs-on: alpine-latest
+    needs: build-windows
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: git-commit-info.txt
+      - run: |
+           log=$(cat git-commit-info.txt)
+           timestamp=$(echo $log | grep -o '^[0-9]\+')
+           dateTime=$(date --date="@$timestamp" +"%Y-%m-%d_%H%M%S")
+           echo "GIT_COMMIT_DATE_TIME=$dateTime" >> $GITHUB_ENV
+      - name: 上传说明文件
+        uses: actions/upload-artifact@v2
+        with:
+          name: 文件版本：${{ env.GIT_COMMIT_DATE_TIME }}
+          path: git-commit-info.txt
